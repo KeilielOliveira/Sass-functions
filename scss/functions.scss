@@ -48,6 +48,9 @@ $valid-map: (1: true);
 $invalid-map: false;
 @debug map.is-a-map($invalid-map);
 
+@debug 'Descrição: Teste passando um mapa valido e um invalido.';
+@debug map.is-a-map($valid-map, $invalid-map);
+
 @debug "TESTES DA FUNÇÃO ADD-IN-MAP-VALUES()......";
 
 @debug 'Descrição: Testando a função passando um prefixo para ser adicionado a todos os valores do mapa.';
@@ -151,3 +154,12 @@ $search: ('key': '@', 'value': '#');
 $replace: ('key': 'key', 'value': 'value');
 $map: map.replace-in-map-keys-and-values($map, $search, $replace);
 @debug $map;
+
+@debug "TESTES DA FUNÇÃO MERGE-MAPS()......";
+
+@debug 'Descrição: Teste passando 3 mapas para serem mesclados em um.';
+$map-1: (1: 'valor 1');
+$map-2: (2: 'valor 2');
+$map-3: (3: 'valor 3');
+$merged-map: map.merge-maps($map-1, $map-2, $map-3);
+@debug $merged-map;

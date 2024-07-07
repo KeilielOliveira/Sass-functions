@@ -77,9 +77,17 @@
     @return $new-map;
 }
 
-@function is-a-map($map) {
+@function is-a-map($maps...) {
 
-    @return if(type-of($map) == map, true, false);
+    @each $map in $maps {
+
+        @if type-of($map) != map {
+
+            @return false;
+        }
+    }
+
+    @return true;
 }
 
 @function add-in-map-keys($map, $map-key-prefix: null, $map-key-sufix: null) {
@@ -147,4 +155,16 @@
     
 
     @return $map;
+}
+
+@function merge-maps($maps...) {
+
+    $merged-map: ();
+
+    @each $map in $maps {
+
+        $merged-map: map-merge($merged-map, $map);
+    }
+
+    @return $merged-map;
 }
