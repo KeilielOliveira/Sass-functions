@@ -1,0 +1,150 @@
+@use 'list' as *;
+@use 'string' as *;
+
+
+@function build-map-with-keys-and-values($map-keys, $map-values) {
+
+    $map: ();
+    $loop-index: 0;
+
+    $use-map-keys: if(length($map-keys) >= length($map-values), true, false); 
+    $loop-map: if($use-map-keys, $map-keys, $map-values);
+
+    @each $item in $loop-map {
+
+        $loop-index: $loop-index + 1;
+
+        @if $use-map-keys {
+
+            $value: if(length($map-values) >= $loop-index, nth($map-values, index($map-keys, $item)), null);
+            $map: map-merge($map, ($item: $value));
+        }@else if $use-map-keys == false {
+
+            $key: if(length($map-keys) >= $loop-index, nth($map-keys, index($map-values, $item)), $loop-index);
+            $map: map-merge($map, ($key: $item));
+        }
+
+    }
+    @return $map;
+}
+
+@function build-map-scope($map-keys, $map-values: null) {
+
+    $valid-list-values-types: (number, string, bool);
+
+    @if is-a-list-of-valid-values($map-keys, $valid-list-values-types) == false 
+    and is-a-list-of-valid-values($map-values, $valid-list-values-types) == false {
+
+        @error 'Um dos parametros deve ser uma lista com valores validos.';
+    }
+
+    $map-scope: ();
+    $use-map-keys: if($map-values == null, true, false);
+    $loop-map: if($use-map-keys, $map-keys, $map-values);
+    $loop-index: 0;
+
+    @each $item in $loop-map {
+
+        $loop-index: $loop-index + 1;
+
+        @if $use-map-keys {
+
+            $map-scope: map-merge($map-scope, (
+                $item: null
+            ));
+        }@else {
+
+            $map-scope: map-merge($map-scope, (
+                $loop-index: $item
+            ));
+        }
+    }
+
+    @return $map-scope;
+}
+
+@function add-in-map-values($map, $map-value-prefix: null, $map-value-sufix: null) {
+
+    $new-map: ();
+
+    @each $key, $value in $map {
+
+        $new-map: map-merge($new-map, (
+            $key: $map-value-prefix + $value + $map-value-sufix
+        ));
+    }
+
+    @return $new-map;
+}
+
+@function is-a-map($map) {
+
+    @return if(type-of($map) == map, true, false);
+}
+
+@function add-in-map-keys($map, $map-key-prefix: null, $map-key-sufix: null) {
+    $new-map: ();
+
+    @each $key, $value in $map {
+
+        $new-map: map-merge($new-map, (
+            $map-key-prefix + $key + $map-key-sufix: $value
+        ));
+    }
+
+    @return $new-map;
+}
+
+@function add-in-map-keys-and-values($map, $map-prefix: null, $map-sufix: null) {
+
+    $map-key-prefix: if(type-of($map-prefix) == map, map-get($map-prefix, 'key'), $map-prefix);
+    $map-key-sufix: if(type-of($map-sufix) == map, map-get($map-sufix, 'key'), $map-sufix);
+    $map-value-prefix: if(type-of($map-prefix) == map, map-get($map-prefix, 'value'), $map-prefix);
+    $map-value-sufix: if(type-of($map-sufix) == map, map-get($map-sufix, 'value'), $map-sufix);
+
+    $map: add-in-map-keys($map, $map-key-prefix, $map-key-sufix);
+    $map: add-in-map-values($map, $map-value-prefix, $map-value-sufix);
+    @return $map;
+}
+
+@function replace-in-map-values($map, $search, $replace, $replace-all: true) {
+
+    $new-map: ();
+
+    @each $key, $value in $map {
+
+        $new-map: map-merge($new-map, (
+            $key: replace($value, $search, $replace, $replace-all)
+        ));
+    }
+
+    @return $new-map;
+}
+
+@function replace-in-map-keys($map, $search, $replace, $replace-all: true) {
+
+    $new-map: ();
+
+    @each $key, $value in $map {
+
+        $new-map: map-merge($new-map, (
+            replace($key, $search, $replace, $replace-all): $value
+        ));
+    }
+
+    @return $new-map;
+}
+
+@function replace-in-map-keys-and-values($map, $search, $replace, $replace-all: true) {
+
+    $key-search: if(type-of($search) == map, map-get($search, 'key'), $search);
+    $value-search: if(type-of($search) == map, map-get($search, 'value'), $search);
+    $key-replace: if(type-of($replace) == map, map-get($replace, 'key'), $replace);
+    $value-replace: if(type-of($replace) == map, map-get($replace, 'value'), $replace);
+
+    $map: replace-in-map-keys($map, $key-search, $key-replace, $replace-all);
+    $map: replace-in-map-values($map, $value-search, $value-replace, $replace-all); 
+    
+
+    @return $map;
+}

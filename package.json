@@ -1,0 +1,33 @@
+{
+  "name": "sass-functions",
+  "version": "1.0.0",
+  "description": "Funções sass uteis.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "watch": "webpack --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KeilielOliveira/Sass-functions.git"
+  },
+  "keywords": [
+    "Sass"
+  ],
+  "author": "Keiliel Oliveira",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/KeilielOliveira/Sass-functions/issues"
+  },
+  "homepage": "https://github.com/KeilielOliveira/Sass-functions#readme",
+  "devDependencies": {
+    "css-loader": "^7.1.2",
+    "mini-css-extract-plugin": "^2.9.0",
+    "sass": "^1.77.6",
+    "sass-loader": "^14.2.1",
+    "webpack": "^5.92.1",
+    "webpack-cli": "^5.1.4",
+    "webpack-remove-empty-scripts": "^1.0.4"
+  }
+}

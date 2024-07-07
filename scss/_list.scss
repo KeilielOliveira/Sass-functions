@@ -1,0 +1,45 @@
+$valid-list-types: (string, list);
+
+@function is-a-list($list) {
+
+    @return if(index($valid-list-types, type-of($list)), true, false);
+}
+
+@function list-values-are-valid($list, $valid-types) {
+
+    $valid-types: convert-string-to-list($valid-types);
+
+    @each $value in $list {
+
+        @if index($valid-types, type-of($value)) == null {
+
+            @return false;
+        }
+
+    }
+
+    @return true;
+}
+
+@function is-a-list-of-valid-values($list, $valid-types) {
+
+    @if is-a-list($list) and list-values-are-valid($list, $valid-types) {
+
+        @return true;
+    }
+
+    @return false;
+}
+
+@function convert-string-to-list($string) {
+
+    @if type-of($string) == string {
+
+        @return zip($string);
+    }@else if type-of($string) == list {
+
+        @return $string;
+    }
+
+    @error 'A string passada não é valida.';
+}

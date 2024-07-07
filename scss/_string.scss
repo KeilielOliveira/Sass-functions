@@ -1,0 +1,16 @@
+@function replace($string, $search, $replace: "", $replace-all: true) {
+
+    $new-string: ""; 
+    $str-index: str-index($string, $search);
+    @if $str-index {
+
+        $before-string: str-slice($string, 1, $str-index - 1);
+        $after-string: str-slice($string, $str-index + str-length($search)); 
+        $new-string: $before-string + $replace + $after-string;
+    }
+
+    @if str-index($new-string, $search) and $replace-all {
+        $new-string: replace($new-string, $search, $replace, $replace-all);
+    }
+    @return $new-string;
+}
