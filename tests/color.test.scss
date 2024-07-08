@@ -1,0 +1,21 @@
+@use '../scss/color' as color;
+@use 'debug' as *;
+
+$enable-function-testing: (
+    'calc-contrast': true
+);
+
+@if map-get($enable-function-testing, 'calc-contrast') {
+
+    $title: function-name('calc-contrast');
+
+    $description: description('Calculando o contraste.');
+    $background: white;
+    $color: black;
+    $result: result(color.calc-contrast($background, $color));
+
+    $description: description('Calculando o contraste entre cores sem contraste.');
+    $background: white;
+    $color: #eeeeee;
+    $result: result(color.calc-contrast($background, $color));
+}

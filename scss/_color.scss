@@ -1,0 +1,40 @@
+@use 'sass:math' as *;
+@use 'sass:color' as *;
+
+@function calc-relative-luminance($color) {
+
+    $red: convert-srgb-to-linear(red($color));
+    $green: convert-srgb-to-linear(green($color));
+    $blue: convert-srgb-to-linear(blue($color));
+
+    @return (0.2126 * $red) + (0.7152 * $green) + (0.0722 * $blue);
+}
+
+@function convert-srgb-to-linear($color-value) {
+
+    $color-value: div($color-value, 255);
+    @if $color-value <= 0.04045 {
+
+        @return div($color-value, 12.92);
+    } @else {
+
+        @return pow($color-value + 0.055, 2.4);
+    }
+}
+
+@function calc-contrast($background, $color) {
+
+    $background-luminance: calc-relative-luminance($background);
+    $color-luminance: calc-relative-luminance($color);
+    $contrast: div((max($background-luminance, $color-luminance) + 0.05), (min($background-luminance, $color-luminance) + 0.05));
+
+    @return if($contrast >= 4.5, true, false);
+}
+
+@function calc-cmontrast($background-color, $color) {
+
+    $background-color-luminance: calc-relative-luminance($background-color);
+    $color-luminance: calc-relative-luminance($color);
+
+    @return calc((max($background-color-luminance, $color-luminance) + 0.05)/(min($background-color-luminance, $color-luminance) + 0.05));
+}

@@ -2,23 +2,23 @@
 @use 'debug' as *;
 
 $enable-function-testing: (
-    'build-map-with-keys-and-values': true,
-    'build-map-scope': true,
-    'is-a-map': true,
-    'add-in-map-values': true,
-    'add-in-map-keys': true,
-    'add-in-map-keys-and-values': true,
-    'replace-in-map-values': true,
-    'replace-in-map-keys': true,
-    'replace-in-map-keys-and-values': true,
-    'merge-maps': true
+    'build-map-with-keys-and-values': false,
+    'build-map-scope': false,
+    'is-a-map': false,
+    'add-in-map-values': false,
+    'add-in-map-keys': false,
+    'add-in-map-keys-and-values': false,
+    'replace-in-map-values': false,
+    'replace-in-map-keys': false,
+    'replace-in-map-keys-and-values': false,
+    'merge-maps': false
 );
 
 @if map-get($enable-function-testing, 'build-map-with-keys-and-values') {
 
     $title: function-name('build-map-with-keys-and-values');
-    $description: description('Criando um mapa a partir de chaves e valores.');
 
+    $description: description('Criando um mapa a partir de chaves e valores.');
     $map-keys: ('chave 1', 'chave 2', 'chave 3');
     $map-values: ('value 1', 'value 2', 'value 3');
     $map: result(map.build-map-with-keys-and-values($map-keys, $map-values));
@@ -32,13 +32,19 @@ $enable-function-testing: (
     $map-keys: ('chave 1', 'chave 2');
     $map-values: ('value 1', 'value 2', 'value 3');
     $map: result(map.build-map-with-keys-and-values($map-keys, $map-values));
+
+    $description: description('Tentando criar um mapa passando valores invalidos.');
+    $map-keys: false;
+    $map-values: null;
+    $map: result(map.build-map-with-keys-and-values($map-keys, $map-values));
+
 }
 
 @if map-get($enable-function-testing, 'build-map-scope') {
 
     $title: function-name('build-map-scope');
-    $description: description('Criando um escopo de mapa somente com chaves.');
 
+    $description: description('Criando um escopo de mapa somente com chaves.');
     $map-keys: ('chave 1', 'chave 2', 'chave 3');
     $map-scope: result(map.build-map-scope($map-keys));
 
