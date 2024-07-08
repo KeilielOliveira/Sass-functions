@@ -5,7 +5,7 @@ const RemoveEmptyScriptsPlugin   = require('webpack-remove-empty-scripts');
 module.exports = {
     mode: 'production',
     entry: {
-        'functions': { import: './scss/functions.scss', filename: '[name].bundle.js' }
+        'map.teste': { import: './tests/map.test.scss', filename: '[name].bundle.js' }
     },
     output: {
         path: path.resolve(__dirname, 'dist'),

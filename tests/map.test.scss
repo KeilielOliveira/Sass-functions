@@ -1,0 +1,190 @@
+@use '../scss/map' as map;
+@use 'debug' as *;
+
+$enable-function-testing: (
+    'build-map-with-keys-and-values': true,
+    'build-map-scope': true,
+    'is-a-map': true,
+    'add-in-map-values': true,
+    'add-in-map-keys': true,
+    'add-in-map-keys-and-values': true,
+    'replace-in-map-values': true,
+    'replace-in-map-keys': true,
+    'replace-in-map-keys-and-values': true,
+    'merge-maps': true
+);
+
+@if map-get($enable-function-testing, 'build-map-with-keys-and-values') {
+
+    $title: function-name('build-map-with-keys-and-values');
+    $description: description('Criando um mapa a partir de chaves e valores.');
+
+    $map-keys: ('chave 1', 'chave 2', 'chave 3');
+    $map-values: ('value 1', 'value 2', 'value 3');
+    $map: result(map.build-map-with-keys-and-values($map-keys, $map-values));
+
+    $description: description('Criando um mapa passando mais chaves que valores.');
+    $map-keys: ('chave 1', 'chave 2', 'chave 3');
+    $map-values: ('value 1', 'value 2');
+    $map: result(map.build-map-with-keys-and-values($map-keys, $map-values));
+
+    $description: description('Criando um mapa passando mais valores que chaves.');
+    $map-keys: ('chave 1', 'chave 2');
+    $map-values: ('value 1', 'value 2', 'value 3');
+    $map: result(map.build-map-with-keys-and-values($map-keys, $map-values));
+}
+
+@if map-get($enable-function-testing, 'build-map-scope') {
+
+    $title: function-name('build-map-scope');
+    $description: description('Criando um escopo de mapa somente com chaves.');
+
+    $map-keys: ('chave 1', 'chave 2', 'chave 3');
+    $map-scope: result(map.build-map-scope($map-keys));
+
+    $description: description('Criando um escopo de mapa somente com valores');
+    $map-values: ('value 1', 'value 2', 'value 3');
+    $map-scope: result(map.build-map-scope(null, $map-values));
+
+    $description: description('Tentando criar um escopo de mapa somente com valores invalidos.');
+    $disabled: disabled();
+    //$map-scope: result(map.build-map-scope((null, null, null), null));
+}
+
+
+@if map-get($enable-function-testing, 'is-a-map') {
+
+    $title: function-name('is-a-map');
+    $description: description('Passando um mapa valido para a verificação.');
+
+    $valid-map: (1: true);
+    $result: result(map.is-a-map($valid-map));
+
+    $description: description('Passando um mapa invalido para a verificação.');
+    $invalid-map: false;
+    $result: result(map.is-a-map($invalid-map));
+
+    $description: description('Passando um mapa valido e um invalido para a verificação.');
+    $result: result(map.is-a-map($valid-map, $invalid-map));
+
+}
+
+@if map-get($enable-function-testing, 'add-in-map-values') {
+
+    $title: function-name('add-in-map-values');
+    $description: description('Adicionando somente um prefixo a todos os valores do mapa.');
+
+    $map: (1: 'valor 1', 2: 'valor 2', 3: 'valor 3');
+    $map-value-prefix: 'map value prefix ';
+    $map: result(map.add-in-map-values($map, $map-value-prefix));
+
+    $description: description('Adicionando somente o sufixo a todos os valores do mapa.');
+    $map: (1: 'valor 1', 2: 'valor 2', 3: 'valor 3');
+    $map-value-sufix: ' map value sufix ';
+    $map: result(map.add-in-map-values($map, null, $map-value-sufix));
+
+    $description: description('Adicionando um prefixo e um sufixo a todos os valores do mapa.');
+    $map: (1: 'valor 1', 2: 'valor 2', 3: 'valor 3');
+    $map-value-prefix: 'map value prefix ';
+    $map-value-sufix: ' map value sufix ';
+    $map: result(map.add-in-map-values($map, $map-value-prefix, $map-value-sufix));
+}
+
+@if map-get($enable-function-testing, 'add-in-map-keys') {
+
+    $title: function-name('add-in-map-keys');
+    $description: description('Adicionando somente o prefixo a todas as chaves do mapa.');
+
+    $map: (1: 'valor 1', 2: 'valor 2', 3: 'valor 3');
+    $map-key-prefix: 'map key prefix ';
+    $map: result(map.add-in-map-keys($map, $map-key-prefix));
+
+    $description: description('Adicionando somente o sufixo a todas as chaves do mapa.');
+    $map: (1: 'valor 1', 2: 'valor 2', 3: 'valor 3');
+    $map-key-sufix: ' map key sufix ';
+    $map: result(map.add-in-map-keys($map, null, $map-key-sufix));
+
+    $description: description('Adicionando um prefixo e um sufixo a todas as chaves do mapa');
+    $map: (1: 'valor 1', 2: 'valor 2', 3: 'valor 3');
+    $map-key-prefix: 'map key prefix ';
+    $map-key-sufix: ' map key sufix ';
+    $map: result(map.add-in-map-keys($map, $map-key-prefix, $map-key-sufix));
+}
+
+@if map-get($enable-function-testing, 'add-in-map-keys-and-values') {
+
+    $title: function-name('add-in-map-keys-and-values');
+    $description: description('Adicionando o mesmo prefixo e sufixo a todos os valores e chaves do mapa.');
+
+    $map: (1: 1, 2: 2, 3: 3);
+    $map-prefix: 'map prefix ';
+    $map-sufix: ' map sufix';
+    $map: result(map.add-in-map-keys-and-values($map, $map-prefix, $map-sufix));
+
+    $description: description('Adicionando um sufixo e um prefixo as chaves do mapa e outro sufixo e prefixo aos valores do mapa');
+    $map: (1: 1, 2: 2, 3: 3);
+    $map-prefix: ('key': 'map key prefix ', 'value': 'map value prefix ');
+    $map-sufix: ('key': ' map keys sufix', 'value': ' map key sufix');
+    $map: result(map.add-in-map-keys-and-values($map, $map-prefix, $map-sufix));
+
+    $description: description('Adicionando somente os prefixos aos valores e chaves do mapa.');
+    $map: (1: 1, 2: 2, 3: 3);
+    $map-prefix: ('key': 'map key prefix ', 'value': 'map value prefix ');
+    $map: result(map.add-in-map-keys-and-values($map, $map-prefix));
+
+    $description: description('Adicionando somente os sufixos aos valores e chaves do mapa.');
+    $map: (1: 1, 2: 2, 3: 3);
+    $map-sufix: ('key': ' map keys sufix', 'value': ' map value sufix');
+    $map: result(map.add-in-map-keys-and-values($map, null, $map-sufix));
+
+    $description: description('Adicionando um prefixo a todas as chaves do mapa e um sufixo em todos os valores do mapa.');
+    $map: (1: 1, 2: 2, 3: 3);
+    $map-prefix: ('key': 'map key prefix ');
+    $map-sufix: ('value': ' map value sufix');
+    $map: result(map.add-in-map-keys-and-values($map, $map-prefix, $map-sufix));
+}
+
+@if map-get($enable-function-testing, 'replace-in-map-values') {
+    
+    $title: function-name('replace-in-map-values');
+    $description: desccription('Substituindo a marcação @ por value em todos os valores do mapa.');
+
+    $map: (1: '@ 1', 2: '@ 2', 3: '@ 3');
+    $search: '@';
+    $replace: 'value';
+    $map: result(map.replace-in-map-values($map, $search, $replace));
+}
+
+@if map-get($enable-function-testing, 'replace-in-map-keys') {
+
+    $title: function-name('replace-in-map-keys');
+    $description: description('Substituindo a marcação @ por key em todas as chaves do mapa.');
+
+    $map: ('@ 1': 1, '@ 2': 2, '@ 3': 3);
+    $search: '@';
+    $replace: 'key';
+    $map: result(map.replace-in-map-keys($map, $search, $replace));
+}
+
+@if map-get($enable-function-testing, 'replace-in-map-keys-and-values') {
+    
+    $title: function-name('replace-in-map-keys-and-values');
+    $description: description('Substituindo as marcações @ e # por key e value respectivamente em todos os valores e chaves do mapa.');
+
+    $map: ('@ 1': '# 1', '@ 2': '# 2', '@ 3': '# 3');
+    $search: ('key': '@', 'value': '#');
+    $replace: ('key': 'key', 'value': 'value');
+    $map: result(map.replace-in-map-keys-and-values($map, $search, $replace));
+}
+
+@if map-get($enable-function-testing, 'merge-maps') {
+
+    $title: function-name('merge-maps');
+    $description: description('Mesclando 3 mapas em um unico mapa.');
+
+    $map-1: (1: 'valor 1');
+    $map-2: (2: 'valor 2');
+    $map-3: (3: 'valor 3');
+    $merged-map: result(map.merge-maps($map-1, $map-2, $map-3));
+
+}

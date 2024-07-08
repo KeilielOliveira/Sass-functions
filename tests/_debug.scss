@@ -1,0 +1,28 @@
+@use 'sass:string' as *;
+
+@function function-name($function-name) {
+    
+    @debug to-upper-case('teste da FUNÇÃO ' + $function-name + '()');
+    @debug '';
+    @return $function-name;
+}
+
+@function description($description) {
+
+    @debug 'Descrição do teste: ' + $description;
+    @return $description;
+}
+
+@function result($result) {
+
+    @debug 'Resultado da função:';
+    @debug $result;
+    @debug '';
+    @return $result;
+}
+
+@function disabled() {
+
+    @debug'Este teste gera um erro que impedira a execução do restante do codigo, para executa-lo mesmo assim, retire o comentario da lina abaixo.';
+    @return null;
+}
