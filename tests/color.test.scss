@@ -2,7 +2,9 @@
 @use 'debug' as *;
 
 $enable-function-testing: (
-    'calc-contrast': true
+    'calc-contrast': false,
+    'lighten-color': false,
+    'darken-color': true,
 );
 
 @if map-get($enable-function-testing, 'calc-contrast') {
@@ -18,4 +20,22 @@ $enable-function-testing: (
     $background: white;
     $color: #eeeeee;
     $result: result(color.calc-contrast($background, $color));
+}
+
+@if map-get($enable-function-testing, 'lighten-color') {
+
+    $title: function-name('lighten-color');
+
+    $description: description('Clareando uma cor.');
+    $color: #f44336;
+    $result: result(color.lighten-color($color, 40%)); 
+}
+
+@if map-get($enable-function-testing, 'darken-color') {
+
+    $title: function-name('darken-color');
+
+    $description: description('Escurecendo uma cor.');
+    $color: #f44336;
+    $result: result(color.darken-color($color, 40%)); 
 }

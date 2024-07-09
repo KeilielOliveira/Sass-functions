@@ -38,3 +38,13 @@
 
     @return calc((max($background-color-luminance, $color-luminance) + 0.05)/(min($background-color-luminance, $color-luminance) + 0.05));
 }
+
+@function lighten-color($color, $percentage, $white: #FFFFFF) {
+
+    @return mix($white, $color, $percentage);
+}
+
+@function darken-color($color, $percentage, $black: #000000) {
+
+    @return mix($black, $color, $percentage);
+}
